@@ -1,0 +1,21 @@
+---
+- hosts: rabbitmq_cluster
+  vars:
+    etc_hosts_add_all_hosts: true
+    etc_hosts_pri_dns_name: '{{ pri_domain_name }}'
+    pri_domain_name: 'localhost'
+    rabbitmq_enable_clustering: true
+    rabbitmq_master: "{{ groups['rabbitmq_cluster'][0] }}"
+    rabbitmq_master_hostname: "master"
+  roles:
+    - role: ansible-etc-hosts
+    - role: ansible-rabbitmq
+  tasks:
+    
+# - hosts: rabbitmq_cluster
+#   vars:
+#     rabbitmq_create_cluster: yes
+#     rabbitmq_cluster_master: "master"
+#     rabbitmq_vhosts: [/, ci, syt, demo]
+#   roles:
+#     - role: alexeymedvedchikov.rabbitmq
